@@ -2,11 +2,11 @@ import logo from '../assets/logo.svg'
 
 function Navbar() {
   return (
-    <nav className="bg-green-500">
+    <nav className="bg-blue-700">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative flex h-16 items-center justify-center">
+          {/* Mobile menu button (hidden on sm and up) */}
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button */}
             <button type="button"
               className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
               aria-controls="mobile-menu"
@@ -48,25 +48,15 @@ function Navbar() {
               </svg>
             </button>
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center">
+          <div className="flex flex-1 items-center justify-center">
+            <div className="flex items-center space-x-3">
               <img
                 className="h-10 w-auto"
                 src={logo}
-                alt="Your Company"
+                alt="PasigCommutr"
               />
+              <span className="text-white text-xl font-semibold">PasigCommutr</span>
             </div>
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-white">
-                  PasigCommutr
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <span className="absolute -inset-1.5"></span>
-              <span className="sr-only">View notifications</span>
           </div>
         </div>
       </div>
