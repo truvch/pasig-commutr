@@ -2,11 +2,9 @@ import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet
 import { useState, useEffect, useRef } from 'react';
 import polyline from '@mapbox/polyline';
 import stations from '../data/stations';
-import BottomPopup from './bottomPopup';
 import L from 'leaflet';
 import jeepIconImg from '../assets/jeepney.png';
 import uvIconImg from '../assets/uvexpress.png';
-import RouteList from './RouteList';
 
 // Define custom icons
 const jeepIcon = new L.Icon({
@@ -57,12 +55,20 @@ function MapResetter({ selectedRoute, initialPosition, initialZoom }) {
             map.setView(initialPosition, initialZoom);
         }
     }, [selectedRoute, map, initialPosition, initialZoom]);
-    return null; 
+    return null;
 }
 
-function MainMap() {
+
+function MainMap({ onStationSelect, clearRoute }) {
     const [selectedRoute, setSelectedRoute] = useState(null);
-    const markerRefs = useRef({}); // Store refs to popups
+    const markerRefs = useRef({});
+
+    // Expose a way for parent to clear the route
+    useEffect(() => {
+        if (typeof clearRoute === 'function') {
+            clearRoute(() => setSelectedRoute(null));
+        }
+    }, [clearRoute]);
 
     const handleMarkerClick = (station, index) => {
         let path = polyline.decode(station.encpoly);
@@ -72,15 +78,8 @@ function MainMap() {
             start: station.positionstart,
             end: station.positionend,
         });
-
-        // Manually open popup (if needed, though Popup component handles this usually)
-        const marker = markerRefs.current[index];
-        if (marker) {
-            // If you want a custom popup (e.g., from BottomPopup), you might not need this.
-            // If you intend to use a Leaflet Popup attached to the marker, you'd add <Popup> inside <Marker>
-            // and this part would be for programmatic opening.
-            // For now, removing marker.openPopup() as BottomPopup is likely the intended popup.
-            // marker.openPopup();
+        if (onStationSelect) {
+            onStationSelect(station);
         }
     };
 
@@ -121,19 +120,6 @@ function MainMap() {
                     />
                 )}
             </MapContainer>
-
-            {selectedRoute && (
-                <BottomPopup
-                    station={stations.find(
-                        (s) =>
-                            s.positionstart[0] === selectedRoute.start[0] &&
-                            s.positionstart[1] === selectedRoute.start[1]
-                    )}
-                    onClose={() => setSelectedRoute(null)}
-                />
-            )}
-            {/* Floating List of Routes */}
-            <RouteList onSelect={handleMarkerClick} />
         </div>
     );
 }

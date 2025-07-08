@@ -1,18 +1,20 @@
-const BottomPopup = ({ station, onClose }) => {
+
+const BottomPopup = ({ station, onClose, className = "" }) => {
     if (!station) return null;
 
     return (
-        <div className="absolute bottom-4 left-4 bg-white shadow-lg rounded-lg p-4 w-80 z-[1000]">
-            <div className="flex justify-between items-center mb-2">
+        <div className={`bg-white shadow-lg rounded-lg p-6 h-full w-full flex flex-col z-[1000] ${className}`}>
+            <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">{station.name}</h2>
                 <button
-                    className="text-red-500 hover:text-red-700"
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded focus:outline-none focus:shadow-outline"
                     onClick={onClose}
                 >
-                    ✕
+                    Close
                 </button>
             </div>
-            <div className="text-sm">
+            <div className="text-sm flex-1">
+                <p><strong>Location:</strong> {station.location ?? 'N/A'}</p>
                 <p><strong>Vehicle Type:</strong> {station.type ?? 'N/A'}</p>
                 <p><strong>Fare:</strong> {station.fare ?? 'N/A'}</p>
                 {/* Add other info if needed */}
