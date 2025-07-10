@@ -59,9 +59,22 @@ function MapResetter({ selectedRoute, initialPosition, initialZoom }) {
 }
 
 
-function MainMap({ onStationSelect, clearRoute }) {
+function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
     const [selectedRoute, setSelectedRoute] = useState(null);
     const markerRefs = useRef({});
+
+    // Handle pre-selected station from URL params
+    useEffect(() => {
+        if (preSelectedStation) {
+            const station = stations.find(s => 
+                s.name === preSelectedStation.name && 
+                s.masterlocation === preSelectedStation.masterlocation
+            );
+            if (station) {
+                handleMarkerClick(station, stations.indexOf(station));
+            }
+        }
+    }, [preSelectedStation]);
 
     // Expose a way for parent to clear the route
     useEffect(() => {

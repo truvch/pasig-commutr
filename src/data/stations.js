@@ -2,6 +2,7 @@ const stations = [
     {
         name: "Pasig Palengke - Shaw Central",
         location: "Pasig Palengke, west side, in front of 7-11 and Julie's Bakeshop",
+        masterlocation: "Pasig Palengke",
         fare: 'Php13 - Php18',
         type: "Jeepney",
         typeid: "jeep",
@@ -12,6 +13,7 @@ const stations = [
     {
         name: "Pasig - SM Megamall Via Robinson",
         location: 'Pasig Palengke, west side, near Mercury Drug',
+        masterlocation: "Pasig Palengke",
         fare: 'Php30',
         type: "UV Express",
         typeid: "uvexpress",
@@ -22,6 +24,7 @@ const stations = [
     {
         name: "Pasig - SM Megamall Via Robinson",
         location: "Urbano Velascco Ave, across Total Gas Station and alongside Lyn's Mamihan",
+        masterlocation: "Urbano Velasco Ave",
         fare: 'Php30',
         type: "UV Express",
         typeid: "uvexpress",
@@ -32,7 +35,8 @@ const stations = [
         {
         name: "Pasig - Quiapo",
         location: 'Pasig Palengke, east side, in front of Novo',
-        fare: 'Php30',
+        masterlocation: "Pasig Palengke",
+        fare: 'Php13',
         type: "Jeepney",
         typeid: "jeep",
         positionstart: [14.557878413041184, 121.08488125247021],
