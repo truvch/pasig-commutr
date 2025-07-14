@@ -1,92 +1,88 @@
 import { useState } from "react"
-import { Menu, X } from "lucide-react" 
+import { Menu, X, MapPin, Route, Users } from "lucide-react" 
 import { Link, useLocation } from "react-router-dom"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const location = useLocation()
 
+  const navItems = [
+    { path: "/", label: "Home", icon: MapPin },
+    { path: "/routes", label: "Route Archives", icon: Route },
+    { path: "/contribute", label: "Contribute", icon: Users },
+  ]
+
   return (
-    <header className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
-      <div className="px-6 py-4">
-        <div className="flex items-center justify-between">
+    <header className="bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Logo and Brand */}
-          <div className="flex items-center">
-            <div className="w-12 h-12 flex items-center justify-center">
-              <img src={require("../assets/logo.svg").default} alt="Logo" className="w-10 h-10" />
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center backdrop-blur-sm">
+              <img src={require("../assets/logo.svg").default} alt="Logo" className="w-6 h-6" />
             </div>
-            <Link to="/" className="ml-3 text-2xl font-bold tracking-tight text-white select-none hover:text-white/90">
+            <Link to="/" className="text-xl font-bold tracking-tight hover:text-white/90 transition-colors">
               PasigCommutr
             </Link>
           </div>
 
-          {/* Hamburger Button - Small Screens */}
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {navItems.map(({ path, label, icon: Icon }) => {
+              const isActive = location.pathname === path
+              return (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
+                    isActive 
+                      ? "bg-white/20 text-white shadow-sm" 
+                      : "text-white/80 hover:text-white hover:bg-white/10"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{label}</span>
+                </Link>
+              )
+            })}
+          </nav>
+
+          {/* Mobile menu button */}
           <div className="md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+            <button 
+              onClick={() => setIsOpen(!isOpen)} 
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors"
+              aria-label="Toggle menu"
+            >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-
-          {/* Navigation - Medium+ Screens */}
-          <nav className="hidden md:flex space-x-8">
-            <Link 
-              to="/" 
-              className={`font-medium transition-colors ${
-                location.pathname === "/" ? "text-white" : "text-white/80 hover:text-white"
-              }`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/routes" 
-              className={`font-medium transition-colors ${
-                location.pathname === "/routes" ? "text-white" : "text-white/80 hover:text-white"
-              }`}
-            >
-              Route Archives
-            </Link>
-            <Link 
-              to="/contribute" 
-              className={`font-medium transition-colors ${
-                location.pathname === "/contribute" ? "text-white" : "text-white/80 hover:text-white"
-              }`}
-            >
-              Contribute
-            </Link>
-          </nav>
         </div>
 
-        {/* Dropdown Menu - Small Screens */}
+        {/* Mobile Navigation */}
         {isOpen && (
-          <nav className="mt-4 flex flex-col space-y-2 md:hidden">
-            <Link 
-              to="/" 
-              className={`font-medium transition-colors ${
-                location.pathname === "/" ? "text-white" : "text-white/80 hover:text-white"
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/routes" 
-              className={`font-medium transition-colors ${
-                location.pathname === "/routes" ? "text-white" : "text-white/80 hover:text-white"
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Route Archives
-            </Link>
-            <Link 
-              to="/contribute" 
-              className={`font-medium transition-colors ${
-                location.pathname === "/contribute" ? "text-white" : "text-white/80 hover:text-white"
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              Contribute
-            </Link>
-          </nav>
+          <div className="md:hidden py-4 border-t border-white/20">
+            <nav className="space-y-2">
+              {navItems.map(({ path, label, icon: Icon }) => {
+                const isActive = location.pathname === path
+                return (
+                  <Link
+                    key={path}
+                    to={path}
+                    onClick={() => setIsOpen(false)}
+                    className={`block px-4 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-3 ${
+                      isActive 
+                        ? "bg-white/20 text-white" 
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span>{label}</span>
+                  </Link>
+                )
+              })}
+            </nav>
+          </div>
         )}
       </div>
     </header>

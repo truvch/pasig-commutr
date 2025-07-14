@@ -7,11 +7,11 @@ function ContributeRouteForm({
   isSubmitting 
 }) {
   return (
-    <div className="bg-gradient-to-br from-purple-25 to-indigo-25 p-4 sm:p-6 lg:p-8 rounded-xl border border-purple-100 max-w-4xl mx-auto">
-      <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+    <div className="max-w-4xl mx-auto">
+      <form onSubmit={onSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="routeName" className="block text-gray-700 mb-2 font-semibold text-sm sm:text-base">
+            <label htmlFor="routeName" className="block text-neutral-700 mb-2 font-semibold">
               Name of the Route <span className="text-red-500">*</span>
             </label>
             <input 
@@ -20,14 +20,14 @@ function ContributeRouteForm({
               name="routeName"
               value={formData.routeName}
               onChange={onChange}
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition shadow-sm text-sm sm:text-base"
+              className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition shadow-sm"
               placeholder="e.g., Pasig-Quiapo"
               required
             />
           </div>
           
           <div>
-            <label htmlFor="vehicleType" className="block text-gray-700 mb-2 font-semibold text-sm sm:text-base">
+            <label htmlFor="vehicleType" className="block text-neutral-700 mb-2 font-semibold">
               Type of Vehicle <span className="text-red-500">*</span>
             </label>
             <select 
@@ -35,7 +35,7 @@ function ContributeRouteForm({
               name="vehicleType"
               value={formData.vehicleType}
               onChange={onChange}
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition shadow-sm text-sm sm:text-base"
+              className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition shadow-sm"
               required
             >
               <option value="">Select vehicle type</option>
@@ -46,7 +46,7 @@ function ContributeRouteForm({
         </div>
       
         <div>
-          <label htmlFor="routeDescription" className="block text-gray-700 mb-2 font-semibold text-sm sm:text-base">
+          <label htmlFor="routeDescription" className="block text-neutral-700 mb-2 font-semibold">
             Description of the route location <span className="text-red-500">*</span>
           </label>
           <textarea 
@@ -55,15 +55,15 @@ function ContributeRouteForm({
             value={formData.routeDescription}
             onChange={onChange}
             rows={3}
-            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition shadow-sm text-sm sm:text-base"
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition shadow-sm"
             placeholder="Describe the route with key landmarks, stops, etc."
             required
           ></textarea>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="startingCoordinates" className="block text-gray-700 mb-2 font-semibold text-sm sm:text-base">
+            <label htmlFor="startingCoordinates" className="block text-neutral-700 mb-2 font-semibold">
               Starting Location Coordinates <span className="text-red-500">*</span>
             </label>
             <input 
@@ -72,14 +72,14 @@ function ContributeRouteForm({
               name="startingCoordinates"
               value={formData.startingCoordinates}
               onChange={onChange}
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition shadow-sm text-sm sm:text-base"
+              className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition shadow-sm"
               placeholder="e.g., 14.578110, 121.085455"
               required
             />
           </div>
           
           <div>
-            <label htmlFor="endingCoordinates" className="block text-gray-700 mb-2 font-semibold text-sm sm:text-base">
+            <label htmlFor="endingCoordinates" className="block text-neutral-700 mb-2 font-semibold">
               Ending Location Coordinates <span className="text-red-500">*</span>
             </label>
             <input 
@@ -88,7 +88,7 @@ function ContributeRouteForm({
               name="endingCoordinates"
               value={formData.endingCoordinates}
               onChange={onChange}
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition shadow-sm text-sm sm:text-base"
+              className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition shadow-sm"
               placeholder="e.g., 14.589987, 121.088997"
               required
             />
@@ -96,7 +96,7 @@ function ContributeRouteForm({
         </div>
         
         <div>
-          <label htmlFor="encodedPolyline" className="block text-gray-700 mb-2 font-semibold text-sm sm:text-base">
+          <label htmlFor="encodedPolyline" className="block text-neutral-700 mb-2 font-semibold">
             Encoded Polyline Route <span className="text-red-500">*</span>
           </label>
           <textarea 
@@ -105,7 +105,7 @@ function ContributeRouteForm({
             value={formData.encodedPolyline}
             onChange={onChange}
             rows={3}
-            className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition shadow-sm text-sm sm:text-base"
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition shadow-sm"
             placeholder="Paste the encoded polyline here"
             required
           ></textarea>
@@ -113,12 +113,12 @@ function ContributeRouteForm({
         
         <InstructionsBlock />
         
-        <div className="text-center">
+        <div className="text-center pt-4">
           <button 
             type="submit"
             disabled={isSubmitting}
-            className={`bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transform hover:scale-105 transition duration-200 shadow-lg text-sm sm:text-base w-full sm:w-auto ${
-              isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+            className={`bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-primary-600 hover:to-primary-700 transform hover:scale-105 transition duration-200 shadow-lg w-full sm:w-auto ${
+              isSubmitting ? 'opacity-75 cursor-not-allowed transform-none' : ''
             }`}
           >
             {isSubmitting ? '⏳ Submitting...' : '🚀 Submit New Route'}

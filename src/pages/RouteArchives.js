@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Search, MapPin, Clock, Star, Eye, ChevronDown, ChevronRight } from 'lucide-react';
 import jeepIconImg from '../assets/jeepney.png';
 import uvIconImg from '../assets/uvexpress.png';
 
@@ -70,168 +71,207 @@ function RouteArchives() {
         } else if (typeid === 'uvexpress') {
             return <img src={uvIconImg} alt="UV Express" className="inline-block w-5 h-5 mr-2" />;
         }
-        return <span className="inline-block w-3 h-3 bg-gray-500 rounded-full mr-2"></span>;
+        return <span className="inline-block w-3 h-3 bg-neutral-500 rounded-full mr-2"></span>;
     };
 
     const getTransportBadge = (typeid) => {
         if (typeid === 'jeep') {
             return (
-                <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center">
+                <span className="bg-accent-100 text-accent-800 text-xs px-3 py-1.5 rounded-full flex items-center font-medium">
                     <img src={jeepIconImg} alt="Jeepney" className="w-3 h-3 mr-1" />
                     Jeepney
                 </span>
             );
         } else if (typeid === 'uvexpress') {
             return (
-                <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full flex items-center">
+                <span className="bg-primary-100 text-primary-800 text-xs px-3 py-1.5 rounded-full flex items-center font-medium">
                     <img src={uvIconImg} alt="UV Express" className="w-3 h-3 mr-1" />
                     UV Express
                 </span>
             );
         }
-        return <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Transport</span>;
+        return <span className="bg-neutral-100 text-neutral-800 text-xs px-3 py-1.5 rounded-full font-medium">Transport</span>;
     };
 
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+                <div className="flex items-center justify-center min-h-screen">
+                    <div className="text-center space-y-4">
+                        <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto"></div>
+                        <p className="text-neutral-600">Loading route archives...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="container mx-auto px-4 py-6 max-w-4xl">
+        <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
+            <div className="container mx-auto px-4 py-6 max-w-6xl">
                 {/* Header */}
+                <div className="mb-8 text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl shadow-lg mb-4">
+                        <MapPin className="w-8 h-8 text-white" />
+                    </div>
+                    <h1 className="text-3xl font-bold text-neutral-900 mb-2">Route Archives</h1>
+                    <p className="text-neutral-600 max-w-2xl mx-auto">
+                        Browse all available routes in Pasig. Find your destination and view it on the interactive map.
+                    </p>
+                </div>
+                {/* Search Bar */}
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Route Archives</h1>
-                    <p className="text-gray-600">Browse all transport routes grouped by location</p>
+                    <div className="relative max-w-2xl mx-auto">
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
+                        <input
+                            type="text"
+                            placeholder="Search routes, locations, or landmarks..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-12 pr-4 py-4 text-lg border-2 border-neutral-200 rounded-2xl focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all duration-200 bg-white shadow-sm"
+                        />
+                    </div>
                 </div>
 
-                {loading ? (
-                    <div className="text-center py-12">
-                        <div className="text-4xl mb-4 text-gray-400">Loading...</div>
-                        <p className="text-gray-600">Fetching route data...</p>
-                    </div>
-                ) : (
-                    <>
-                        {/* Search Bar */}
-                        <div className="mb-6">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="Search routes, locations, or landmarks..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
-                        </div>
-
                 {/* Results Info */}
-                <div className="mb-4">
-                    <p className="text-sm text-gray-600">
-                        {Object.keys(groupedStations).length} location{Object.keys(groupedStations).length !== 1 ? 's' : ''} found
-                        {searchTerm && ` for "${searchTerm}"`}
+                <div className="mb-6 text-center">
+                    <p className="text-neutral-600">
+                        <span className="font-semibold">{Object.keys(groupedStations).length}</span> location{Object.keys(groupedStations).length !== 1 ? 's' : ''} found
+                        {searchTerm && (
+                            <span> for "<span className="font-medium text-primary-600">{searchTerm}</span>"</span>
+                        )}
                     </p>
                 </div>
 
                 {/* Grouped Stations */}
                 <div className="space-y-4">
                     {Object.keys(groupedStations).length === 0 ? (
-                        <div className="text-center py-12">
-                            <div className="text-4xl mb-4 text-gray-400">No Results</div>
-                            <p className="text-gray-600">No routes found matching your search.</p>
+                        <div className="text-center py-16">
+                            <div className="w-20 h-20 bg-neutral-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                                <Search className="w-8 h-8 text-neutral-400" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-neutral-800 mb-2">No Routes Found</h3>
+                            <p className="text-neutral-600">Try adjusting your search terms or browse all locations.</p>
                         </div>
                     ) : (
                         Object.entries(groupedStations).map(([groupName, groupStations]) => (
-                            <div key={groupName} className="bg-white rounded-lg shadow-sm border border-gray-200">
+                            <div key={groupName} className="bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
                                 {/* Group Header */}
                                 <button
                                     onClick={() => toggleGroup(groupName)}
-                                    className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                                    className="w-full px-6 py-5 flex items-center justify-between hover:bg-neutral-50 transition-colors"
                                 >
-                                    <div className="flex items-center">
-                                        <span className="text-gray-500 mr-3 font-medium">•</span>
+                                    <div className="flex items-center space-x-4">
+                                        <div className="w-12 h-12 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl flex items-center justify-center">
+                                            <MapPin className="w-6 h-6 text-primary-600" />
+                                        </div>
                                         <div className="text-left">
-                                            <h3 className="font-semibold text-gray-900">{groupName}</h3>
-                                            <p className="text-sm text-gray-600">
-                                                {groupStations.length} route{groupStations.length !== 1 ? 's' : ''}
+                                            <h3 className="font-bold text-neutral-900 text-lg">{groupName}</h3>
+                                            <p className="text-sm text-neutral-600 flex items-center space-x-1">
+                                                <span>{groupStations.length} route{groupStations.length !== 1 ? 's' : ''}</span>
+                                                <span>•</span>
+                                                <span className="flex items-center space-x-1">
+                                                    <Star className="w-3 h-3 text-accent-500" />
+                                                    <span>Popular area</span>
+                                                </span>
                                             </p>
                                         </div>
                                     </div>
-                                    <span className="text-gray-400 text-lg">
-                                        {expandedGroups[groupName] ? '▲' : '▼'}
-                                    </span>
+                                    <div className="text-neutral-400">
+                                        {expandedGroups[groupName] ? 
+                                            <ChevronDown className="w-5 h-5" /> : 
+                                            <ChevronRight className="w-5 h-5" />
+                                        }
+                                    </div>
                                 </button>
 
                                 {/* Group Content */}
-                                <div className={`transition-all duration-200 ease-in-out ${
-                                    expandedGroups[groupName] ? 'max-h-none opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
-                                }`}>
-                                    <div className="border-t border-gray-200">
-                                        {groupStations.map((station, index) => (
-                                            <div key={index} className="px-6 py-4 border-b border-gray-100 last:border-b-0">
-                                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                                                    <div className="flex-1 min-w-0">
-                                                        <div className="flex items-center mb-2">
-                                                            {getTransportIcon(station.typeid)}
-                                                            <h4 className="font-medium text-gray-900 truncate">
-                                                                Route: {station.name}
-                                                            </h4>
-                                                        </div>
-                                                        <div className="flex items-start text-sm text-gray-600 mb-2">
-                                                            <span className="mr-1 mt-0.5 font-medium">•</span>
-                                                            <span className="break-words">
-                                                                Location: {station.location}
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex items-center gap-2 mb-2">
-                                                            {getTransportBadge(station.typeid)}
-                                                            {station.fare && (
-                                                                <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
-                                                                    Fare: {station.fare}
+                                {expandedGroups[groupName] && (
+                                    <div className="border-t border-neutral-200 bg-neutral-50">
+                                        <div className="p-6 space-y-4">
+                                            {groupStations.map((station, index) => (
+                                                <div key={index} className="bg-white rounded-xl p-4 border border-neutral-200 hover:shadow-md transition-shadow">
+                                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex items-center space-x-3 mb-3">
+                                                                <div className="text-2xl">
+                                                                    {station.typeid === 'jeep' ? '🚌' : station.typeid === 'uvexpress' ? '🚐' : '🚌'}
+                                                                </div>
+                                                                <div>
+                                                                    <h4 className="font-semibold text-neutral-900 text-lg">
+                                                                        {station.name}
+                                                                    </h4>
+                                                                    <p className="text-neutral-600 text-sm">
+                                                                        {station.location}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-3 flex-wrap">
+                                                                {getTransportBadge(station.typeid)}
+                                                                {station.fare && (
+                                                                    <span className="bg-accent-100 text-accent-800 text-xs px-3 py-1.5 rounded-full font-medium flex items-center space-x-1">
+                                                                        <span>₱{station.fare}</span>
+                                                                    </span>
+                                                                )}
+                                                                <span className="bg-neutral-100 text-neutral-700 text-xs px-3 py-1.5 rounded-full font-medium flex items-center space-x-1">
+                                                                    <Clock className="w-3 h-3" />
+                                                                    <span>5AM - 10PM</span>
                                                                 </span>
-                                                            )}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="flex-shrink-0">
-                                                        <button
-                                                            onClick={() => handleShowOnMap(station)}
-                                                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                                                        >
-                                                            Show on Map
-                                                        </button>
+                                                        <div className="flex-shrink-0">
+                                                            <button
+                                                                onClick={() => handleShowOnMap(station)}
+                                                                className="inline-flex items-center px-6 py-3 bg-primary-600 text-white text-sm font-semibold rounded-xl hover:bg-primary-700 transition-colors shadow-sm space-x-2"
+                                                            >
+                                                                <Eye className="w-4 h-4" />
+                                                                <span>View on Map</span>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         ))
                     )}
                 </div>
 
-                {/* Summary */}
-                <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                    <h3 className="font-semibold text-blue-900 mb-2">Route Summary</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-                        <div className="flex items-center">
-                            <img src={jeepIconImg} alt="Jeepney" className="w-4 h-4 mr-2" />
-                            <span className="text-blue-800">
-                                {stations.filter(s => s.typeid === 'jeep').length} Jeepney routes
-                            </span>
+                {/* Summary Stats */}
+                <div className="mt-12 bg-white rounded-2xl p-6 border border-neutral-200 shadow-sm">
+                    <h3 className="font-bold text-neutral-900 mb-4 text-center">Route Summary</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div className="text-center">
+                            <div className="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                <img src={jeepIconImg} alt="Jeepney" className="w-8 h-8" />
+                            </div>
+                            <div className="text-2xl font-bold text-accent-600">
+                                {stations.filter(s => s.typeid === 'jeep').length}
+                            </div>
+                            <p className="text-neutral-600 text-sm">Jeepney Routes</p>
                         </div>
-                        <div className="flex items-center">
-                            <img src={uvIconImg} alt="UV Express" className="w-4 h-4 mr-2" />
-                            <span className="text-blue-800">
-                                {stations.filter(s => s.typeid === 'uvexpress').length} UV Express routes
-                            </span>
+                        <div className="text-center">
+                            <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                <img src={uvIconImg} alt="UV Express" className="w-8 h-8" />
+                            </div>
+                            <div className="text-2xl font-bold text-primary-600">
+                                {stations.filter(s => s.typeid === 'uvexpress').length}
+                            </div>
+                            <p className="text-neutral-600 text-sm">UV Express Routes</p>
                         </div>
-                        <div className="flex items-center">
-                            <span className="text-blue-700 mr-2 font-medium">•</span>
-                            <span className="text-blue-800">
-                                {Object.keys(groupedStations).length} locations
-                            </span>
+                        <div className="text-center">
+                            <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                <MapPin className="w-8 h-8 text-neutral-600" />
+                            </div>
+                            <div className="text-2xl font-bold text-neutral-700">
+                                {Object.keys(groupedStations).length}
+                            </div>
+                            <p className="text-neutral-600 text-sm">Locations</p>
                         </div>
                     </div>
                 </div>
-                    </>
-                )}
             </div>
         </div>
     );
