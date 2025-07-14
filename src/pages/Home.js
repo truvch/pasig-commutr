@@ -1,18 +1,38 @@
-import MainMap from "./MainMap";
+import MainMap from "../components/MainMap";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import BottomPopup from "./bottomPopup";
-import stations from "../data/stations";
+import BottomPopup from "../components/bottomPopup";
 
-function MainContent() {
+function Home() {
     const [selectedStation, setSelectedStation] = useState(null);
     const [selectedRoute, setSelectedRoute] = useState(null);
     const [preSelectedStation, setPreSelectedStation] = useState(null);
+    const [buttonText, setButtonText] = useState("Click me!");
+    const [stations, setStations] = useState([]);
+    const [loading, setLoading] = useState(true);
     const clearRouteRef = useRef(null);
     const location = useLocation();
 
+    // Fetch stations data from API
+    useEffect(() => {
+        fetch("http://localhost:3001/get-stations")
+            .then((res) => res.json())
+            .then((result) => {
+                if (result.success) {
+                    setStations(result.data);
+                }
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching stations:", error);
+                setLoading(false);
+            });
+    }, []);
+
     // Handle URL parameters from Route Archives
     useEffect(() => {
+        if (loading || stations.length === 0) return; // Wait for stations to load
+        
         const urlParams = new URLSearchParams(location.search);
         const stationName = urlParams.get('station');
         const masterlocation = urlParams.get('masterlocation');
@@ -29,7 +49,8 @@ function MainContent() {
                 });
             }
         }
-    }, [location.search]);
+
+    }, [location.search, stations, loading]);
 
     // Handler to pass to MainMap for station selection
     const handleStationSelect = (station) => {
@@ -86,11 +107,11 @@ function MainContent() {
                                 Select a station or search a route to see details here.
                             </p>
                         </div>
-                    )}
-                </aside>
+                    )}                </aside>
             </div>
+                    
         </main>
     );
 }
 
-export default MainContent;
+export default Home;

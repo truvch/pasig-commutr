@@ -45,7 +45,14 @@ export default function Navbar() {
             >
               Route Archives
             </Link>
-            <a href="#" className="text-white/80 hover:text-white font-medium">Contribute</a>
+            <Link 
+              to="/contribute" 
+              className={`font-medium transition-colors ${
+                location.pathname === "/contribute" ? "text-white" : "text-white/80 hover:text-white"
+              }`}
+            >
+              Contribute
+            </Link>
           </nav>
         </div>
 
@@ -70,7 +77,15 @@ export default function Navbar() {
             >
               Route Archives
             </Link>
-            <a href="#" className="text-white/80 hover:text-white font-medium">Contribute</a>
+            <Link 
+              to="/contribute" 
+              className={`font-medium transition-colors ${
+                location.pathname === "/contribute" ? "text-white" : "text-white/80 hover:text-white"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              Contribute
+            </Link>
           </nav>
         )}
       </div>

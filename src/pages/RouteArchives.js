@@ -1,16 +1,35 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import stations from '../data/stations';
 import jeepIconImg from '../assets/jeepney.png';
 import uvIconImg from '../assets/uvexpress.png';
 
 function RouteArchives() {
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedGroups, setExpandedGroups] = useState({});
+    const [stations, setStations] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    // Fetch stations data from API
+    useEffect(() => {
+        fetch("http://localhost:3001/get-stations")
+            .then((res) => res.json())
+            .then((result) => {
+                if (result.success) {
+                    setStations(result.data);
+                }
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching stations:", error);
+                setLoading(false);
+            });
+    }, []);
 
     // Group stations by masterlocation
     const groupedStations = useMemo(() => {
+        if (!stations.length) return {};
+        
         const filtered = stations.filter(station => 
             station.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             station.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -25,7 +44,7 @@ function RouteArchives() {
             groups[key].push(station);
             return groups;
         }, {});
-    }, [searchTerm]);
+    }, [searchTerm, stations]);
 
     const toggleGroup = (groupName) => {
         setExpandedGroups(prev => ({
@@ -82,18 +101,25 @@ function RouteArchives() {
                     <p className="text-gray-600">Browse all transport routes grouped by location</p>
                 </div>
 
-                {/* Search Bar */}
-                <div className="mb-6">
-                    <div className="relative">
-                        <input
-                            type="text"
-                            placeholder="Search routes, locations, or landmarks..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
+                {loading ? (
+                    <div className="text-center py-12">
+                        <div className="text-4xl mb-4 text-gray-400">Loading...</div>
+                        <p className="text-gray-600">Fetching route data...</p>
                     </div>
-                </div>
+                ) : (
+                    <>
+                        {/* Search Bar */}
+                        <div className="mb-6">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Search routes, locations, or landmarks..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
 
                 {/* Results Info */}
                 <div className="mb-4">
@@ -204,6 +230,8 @@ function RouteArchives() {
                         </div>
                     </div>
                 </div>
+                    </>
+                )}
             </div>
         </div>
     );
