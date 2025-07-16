@@ -1,8 +1,8 @@
-import MainMap from "../components/MainMap";
+import MainMap from "../components/MainMap.js";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import API_BASE_URL from '../config/api.js';
-import BottomPopup from "../components/bottomPopup";
+import BottomPopup from "../components/bottomPopup.js";
 
 function Home() {
     const [selectedStation, setSelectedStation] = useState(null);

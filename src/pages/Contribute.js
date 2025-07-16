@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import useFormState from '../hooks/useFormState';
-import { submitNewRoute, submitReport } from '../utils/formSubmission';
-import NotificationMessage from '../components/NotificationMessage';
-import ContributeRouteForm from '../components/ContributeRouteForm';
-import ReportRouteForm from '../components/ReportRouteForm';
-import ContactForm from '../components/ContactForm';
+import useFormState from '../hooks/useFormState.js';
+import { submitNewRoute, submitReport } from '../utils/formSubmission.js';
+import NotificationMessage from '../components/NotificationMessage.js';
+import ContributeRouteForm from '../components/ContributeRouteForm.js';
+import ReportRouteForm from '../components/ReportRouteForm.js';
+import ContactForm from '../components/ContactForm.js';
 import jeepIconImg from '../assets/jeepney.png';
 import uvIconImg from '../assets/uvexpress.png';
 

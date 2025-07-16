@@ -1,4 +1,4 @@
-import InstructionsBlock from '../components/InstructionsBlock';
+import InstructionsBlock from '../components/InstructionsBlock.js';
 
 function ContributeRouteForm({ 
   formData, 

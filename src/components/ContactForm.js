@@ -1,6 +1,6 @@
-import useFormState from '../hooks/useFormState';
-import { submitContactForm } from '../utils/formSubmission';
-import NotificationMessage from './NotificationMessage';
+import useFormState from '../hooks/useFormState.js';
+import { submitContactForm } from '../utils/formSubmission.js';
+import NotificationMessage from './NotificationMessage.js';
 
 function ContactForm() {
   const {

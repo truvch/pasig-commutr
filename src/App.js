@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import RouteArchives from './pages/RouteArchives';
-import Contribute from './pages/Contribute';
+import Navbar from './components/Navbar.js';
+import Home from './pages/Home.js';
+import RouteArchives from './pages/RouteArchives.js';
+import Contribute from './pages/Contribute.js';
 import './App.css';
 
 function App() {
