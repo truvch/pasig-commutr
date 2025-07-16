@@ -1,10 +1,11 @@
 import React from 'react';
+import API_BASE_URL from '../config/api.js';
 
 const Stations = () => {
   const [stationsData, setStationsData] = React.useState([]);
 
   React.useEffect(() => {
-    fetch("http://localhost:3001/get-stations")
+    fetch(`${API_BASE_URL}/get-stations`)
       .then((res) => res.json())
       .then((result) => {
         if (result.success) {

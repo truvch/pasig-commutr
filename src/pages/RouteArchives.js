@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Clock, Star, Eye, ChevronDown, ChevronRight } from 'lucide-react';
+import API_BASE_URL from '../config/api.js';
 import jeepIconImg from '../assets/jeepney.png';
 import uvIconImg from '../assets/uvexpress.png';
 
@@ -12,7 +13,7 @@ function RouteArchives() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:3001/get-stations")
+        fetch(`${API_BASE_URL}/get-stations`)
             .then((res) => res.json())
             .then((result) => {
                 if (result.success) {

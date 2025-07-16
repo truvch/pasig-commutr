@@ -1,6 +1,7 @@
 import MainMap from "../components/MainMap";
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import API_BASE_URL from '../config/api.js';
 import BottomPopup from "../components/bottomPopup";
 
 function Home() {
@@ -13,7 +14,7 @@ function Home() {
     const location = useLocation();
 
     useEffect(() => {
-        fetch("http://localhost:3001/get-stations")
+        fetch(`${API_BASE_URL}/get-stations`)
             .then((res) => res.json())
             .then((result) => {
                 if (result.success) {

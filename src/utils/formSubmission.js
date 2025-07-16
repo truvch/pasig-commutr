@@ -1,3 +1,5 @@
+import API_BASE_URL from '../config/api.js';
+
 async function submitNewRoute(formData, { setIsSubmitting, setSubmitError, setSubmitSuccess, resetForm }) {
   if (!validateNewRouteForm(formData)) {
     setSubmitError('All fields are required.');
@@ -8,7 +10,7 @@ async function submitNewRoute(formData, { setIsSubmitting, setSubmitError, setSu
     setIsSubmitting(true);
     setSubmitError('');
     
-    const response = await fetch('http://localhost:3001/contribute-route', {
+    const response = await fetch(`${API_BASE_URL}/contribute-route`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +29,7 @@ async function submitNewRoute(formData, { setIsSubmitting, setSubmitError, setSu
   } catch (error) {
     console.error('Submit error:', error);
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
-      setSubmitError('Cannot connect to server. Make sure the backend is running on port 3001.');
+      setSubmitError('Cannot connect to server. Please check your internet connection and try again.');
     } else {
       setSubmitError(error.message);
     }
@@ -46,7 +48,7 @@ async function submitReport(formData, { setIsSubmitting, setSubmitError, setSubm
     setIsSubmitting(true);
     setSubmitError('');
     
-    const response = await fetch('http://localhost:3001/contribute-report', {
+    const response = await fetch(`${API_BASE_URL}/contribute-report`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,7 +67,7 @@ async function submitReport(formData, { setIsSubmitting, setSubmitError, setSubm
   } catch (error) {
     console.error('Submit error:', error);
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
-      setSubmitError('Cannot connect to server. Make sure the backend is running on port 3001.');
+      setSubmitError('Cannot connect to server. Please check your internet connection and try again.');
     } else {
       setSubmitError(error.message);
     }
@@ -84,7 +86,7 @@ async function submitContactForm(formData, { setIsSubmitting, setSubmitError, se
     setIsSubmitting(true);
     setSubmitError('');
     
-    const response = await fetch('http://localhost:3001/contact-us', {
+    const response = await fetch(`${API_BASE_URL}/contact-us`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -103,7 +105,7 @@ async function submitContactForm(formData, { setIsSubmitting, setSubmitError, se
   } catch (error) {
     console.error('Submit error:', error);
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
-      setSubmitError('Cannot connect to server. Make sure the backend is running on port 3001.');
+      setSubmitError('Cannot connect to server. Please check your internet connection and try again.');
     } else {
       setSubmitError(error.message);
     }

@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet
 import { useState, useEffect, useRef } from 'react';
 import polyline from '@mapbox/polyline';
 import L from 'leaflet';
+import API_BASE_URL from '../config/api.js';
 import jeepIconImg from '../assets/jeepney.png';
 import uvIconImg from '../assets/uvexpress.png';
 
@@ -88,7 +89,7 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
         setLoading(true);
         setError(null);
         
-        fetch("http://localhost:3001/get-stations")
+        fetch(`${API_BASE_URL}/get-stations`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
