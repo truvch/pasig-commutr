@@ -19,7 +19,6 @@ const BottomPopup = ({ station, onClose, className = "" }) => {
 
     return (
         <div className={`bg-white rounded-2xl h-full w-full flex flex-col overflow-hidden ${className}`}>
-            {/* Header */}
             <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-5">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -77,7 +76,7 @@ const BottomPopup = ({ station, onClose, className = "" }) => {
                             </div>
                             <div>
                                 <p className="text-sm text-neutral-500 font-medium">Fare</p>
-                                <p className="text-neutral-800 font-semibold">{station.fare ? `₱${station.fare}` : 'Contact driver'}</p>
+                                <p className="text-neutral-800 font-semibold">{station.fare ? `${station.fare}` : 'Contact driver'}</p>
                             </div>
                         </div>
                     </div>
@@ -126,7 +125,7 @@ const BottomPopup = ({ station, onClose, className = "" }) => {
                 {/* Help Text */}
                 <div className="bg-primary-50 border border-primary-200 rounded-xl p-4">
                     <p className="text-primary-700 text-sm">
-                        💡 <strong>Tip:</strong> Fares may vary depending on distance and time of day. Always confirm with the driver before boarding.
+                        💡 <strong>Tip:</strong> Fares may vary depending on distance. Always confirm with the driver before boarding.
                     </p>
                 </div>
             </div>

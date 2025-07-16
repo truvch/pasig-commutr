@@ -12,7 +12,6 @@ function Home() {
     const clearRouteRef = useRef(null);
     const location = useLocation();
 
-    // Fetch stations data from API
     useEffect(() => {
         fetch("http://localhost:3001/get-stations")
             .then((res) => res.json())
@@ -28,16 +27,14 @@ function Home() {
             });
     }, []);
 
-    // Handle URL parameters from Route Archives
     useEffect(() => {
-        if (loading || stations.length === 0) return; // Wait for stations to load
+        if (loading || stations.length === 0) return;
         
         const urlParams = new URLSearchParams(location.search);
         const stationName = urlParams.get('station');
         const masterlocation = urlParams.get('masterlocation');
         
         if (stationName && masterlocation) {
-            // Find the station from the data
             const station = stations.find(s => s.name === stationName && s.masterlocation === masterlocation);
             if (station) {
                 setPreSelectedStation(station);
@@ -51,12 +48,9 @@ function Home() {
 
     }, [location.search, stations, loading]);
 
-    // Handler to pass to MainMap for station selection
     const handleStationSelect = (station) => {
         setSelectedStation(station);
-        // Set selectedRoute based on station info
         if (station) {
-            // If station has a route property, use it; otherwise, use station name as route name
             setSelectedRoute({
                 name: station.routeName || station.name || 'Unknown Route',
                 stops: station.stops || [station.name]
@@ -91,12 +85,10 @@ function Home() {
         <main className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
             <div className="container mx-auto px-4 py-6">
                 <div className="grid lg:grid-cols-3 gap-6 h-full">
-                    {/* Map Section */}
                     <div className="lg:col-span-2 order-1 lg:order-none">
                         <div className="bg-white rounded-2xl shadow-lg border border-neutral-200 
                                       h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[600px] 
                                       overflow-hidden relative group">
-                            {/* Map Hint */}
                             <div className="absolute top-4 right-4 z-10">
                                 <div className="bg-white/90 backdrop-blur-sm rounded-xl px-3 py-2 shadow-sm border border-white/20">
                                     <p className="text-sm text-neutral-600">Click any station for details</p>
@@ -111,7 +103,6 @@ function Home() {
                         </div>
                     </div>
 
-                    {/* Details Sidebar */}
                     <aside className="lg:h-[600px] order-2 lg:order-none">
                         <div className="bg-white rounded-2xl shadow-lg border border-neutral-200 h-full overflow-hidden">
                             {selectedStation ? (

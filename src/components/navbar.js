@@ -16,7 +16,6 @@ export default function Navbar() {
     <header className="bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo and Brand */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center backdrop-blur-sm">
               <img src={require("../assets/logo.svg").default} alt="Logo" className="w-6 h-6" />
@@ -26,7 +25,6 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map(({ path, label, icon: Icon }) => {
               const isActive = location.pathname === path
@@ -47,7 +45,6 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
@@ -59,7 +56,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 border-t border-white/20">
             <nav className="space-y-2">

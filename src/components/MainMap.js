@@ -26,7 +26,6 @@ function getIconByType(typeid) {
 
 const initialMapPosition = [14.558841468571385, 121.08326037851103]; 
 
-// Create custom icons for start and end markers
 const startIcon = new L.Icon({
     iconUrl: 'data:image/svg+xml;base64,' + btoa(`
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="green">
@@ -51,7 +50,6 @@ const endIcon = new L.Icon({
     popupAnchor: [0, -12],
 });
 
-// Show route + zoom
 function RouteViewer({ path, start, end }) {
     const map = useMap();
 
@@ -68,7 +66,6 @@ function RouteViewer({ path, start, end }) {
     );
 }
 
-// Component to handle map resetting when no route is selected
 function MapResetter({ selectedRoute, initialPosition, initialZoom }) {
     const map = useMap();
     useEffect(() => {
@@ -87,7 +84,6 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
     const [error, setError] = useState(null);
     const markerRefs = useRef({});
 
-    // Fetch stations data from API
     useEffect(() => {
         setLoading(true);
         setError(null);
@@ -117,7 +113,6 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
             });
     }, []);
 
-    // Handle pre-selected station from URL params
     useEffect(() => {
         if (preSelectedStation && stations.length > 0) {
             const station = stations.find(s => 
@@ -130,7 +125,6 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
         }
     }, [preSelectedStation, stations]);
 
-    // Expose a way for parent to clear the route
     useEffect(() => {
         if (typeof clearRoute === 'function') {
             clearRoute(() => setSelectedRoute(null));
@@ -138,13 +132,11 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
     }, [clearRoute]);
 
     const handleMarkerClick = (station, index) => {
-        // Add safety checks for station data
         if (!station.encpoly || !station.positionstart || !station.positionend) {
             console.warn('Incomplete station data:', station);
             return;
         }
         
-        // Validate coordinates
         if (!Array.isArray(station.positionstart) || station.positionstart.length !== 2 ||
             !Array.isArray(station.positionend) || station.positionend.length !== 2) {
             console.warn('Invalid coordinate data:', station);
@@ -194,7 +186,6 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
                 />
 
                 {!selectedRoute && stations && stations.length > 0 && stations.map((station, index) => {
-                    // Ensure station has required properties and valid coordinates
                     if (!station.positionstart || 
                         !Array.isArray(station.positionstart) || 
                         station.positionstart.length !== 2 ||

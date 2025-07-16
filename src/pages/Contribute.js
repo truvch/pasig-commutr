@@ -9,7 +9,7 @@ import jeepIconImg from '../assets/jeepney.png';
 import uvIconImg from '../assets/uvexpress.png';
 
 function Contribute() {
-  const [activeTab, setActiveTab] = useState(null); // null means no form selected yet
+  const [activeTab, setActiveTab] = useState(null);
   const [showHelp, setShowHelp] = useState(false);
   const {
     newRouteForm,
@@ -56,7 +56,6 @@ function Contribute() {
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-6xl">
         
-        {/* Hero Section */}
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-800 mb-4">
             Help Improve PasigCommutr
@@ -67,7 +66,6 @@ function Contribute() {
           </p>
         </div>
 
-        {/* Success Message */}
         {submitSuccess && (
           <div className="mb-8">
             <NotificationMessage 
@@ -75,10 +73,8 @@ function Contribute() {
               message="Your submission has been received successfully. Thank you for contributing!"
               onClose={() => setSubmitSuccess(false)}
             />
-          </div>
-        )}
-        
-        {/* Error Message */}
+          </div>        )}
+
         {submitError && (
           <div className="mb-8">
             <NotificationMessage 
@@ -89,10 +85,8 @@ function Contribute() {
           </div>
         )}
 
-        {/* Main Content */}
         <div className="bg-white rounded-2xl shadow-xl border border-neutral-200 overflow-hidden">
           
-          {/* Selection Screen */}
           {!activeTab && (
             <div className="p-8 sm:p-12">
               <div className="text-center mb-8">
@@ -106,7 +100,6 @@ function Contribute() {
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
                 
-                {/* Add New Route Card */}
                 <div 
                   onClick={() => setActiveTab('contribute')}
                   className="group cursor-pointer bg-gradient-to-br from-primary-50 to-primary-100 border-2 border-primary-200 rounded-xl p-6 sm:p-8 hover:shadow-lg transform hover:scale-105 transition-all duration-200"
@@ -136,7 +129,6 @@ function Contribute() {
                   </div>
                 </div>
 
-                {/* Report Issue Card */}
                 <div 
                   onClick={() => setActiveTab('report')}
                   className="group cursor-pointer bg-gradient-to-br from-accent-50 to-accent-100 border-2 border-accent-200 rounded-xl p-6 sm:p-8 hover:shadow-lg transform hover:scale-105 transition-all duration-200"
@@ -166,10 +158,8 @@ function Contribute() {
             </div>
           )}
 
-          {/* Form Section */}
           {activeTab && (
             <div className="border-t border-neutral-200">
-              {/* Form Header */}
               <div className="bg-neutral-50 px-6 sm:px-8 py-4 flex items-center justify-between">
                 <div className="flex items-center">
                   <button 
@@ -186,7 +176,6 @@ function Contribute() {
                 </div>
               </div>
 
-              {/* Form Content */}
               <div className="p-6 sm:p-8">
                 {activeTab === 'contribute' && (
                   <ContributeRouteForm 
@@ -210,7 +199,6 @@ function Contribute() {
           )}
         </div>
 
-        {/* Help Section */}
         <div className="mt-8 sm:mt-12">
           <div className="bg-white rounded-xl shadow-lg border border-neutral-200 overflow-hidden">
             <button 

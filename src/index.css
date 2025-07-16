@@ -28,7 +28,6 @@ body {
   background-color: var(--color-neutral-50);
 }
 
-/* Accessibility: Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -40,13 +39,11 @@ body {
   }
 }
 
-/* Focus styles for keyboard navigation */
 :focus-visible {
   outline: 2px solid var(--color-primary-500);
   outline-offset: 2px;
 }
 
-/* Custom scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
 }

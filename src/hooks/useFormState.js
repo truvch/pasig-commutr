@@ -18,6 +18,13 @@ function useFormState() {
     correctEncodedPolyline: '',
   });
 
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -43,6 +50,15 @@ function useFormState() {
     );
   };
 
+  const validateContactForm = () => {
+    return (
+      contactForm.name.trim() !== '' &&
+      contactForm.email.trim() !== '' &&
+      contactForm.subject.trim() !== '' &&
+      contactForm.message.trim() !== ''
+    );
+  };
+
   const handleNewRouteChange = (e) => {
     const { name, value } = e.target;
     setNewRouteForm(prev => ({
@@ -54,6 +70,14 @@ function useFormState() {
   const handleReportChange = (e) => {
     const { name, value } = e.target;
     setReportForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleContactChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm(prev => ({
       ...prev,
       [name]: value
     }));
@@ -80,26 +104,34 @@ function useFormState() {
     });
   };
 
+  const resetContactForm = () => {
+    setContactForm({
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+    });
+  };
+
   return {
-    // State
     newRouteForm,
     reportForm,
+    contactForm,
     isSubmitting,
     submitSuccess,
     submitError,
-    // Actions
     setIsSubmitting,
     setSubmitSuccess,
     setSubmitError,
-    // Handlers
     handleNewRouteChange,
     handleReportChange,
-    // Validators
+    handleContactChange,
     validateNewRouteForm,
     validateReportForm,
-    // Reset functions
+    validateContactForm,
     resetNewRouteForm,
     resetReportForm,
+    resetContactForm,
   };
 }
 

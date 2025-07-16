@@ -11,7 +11,6 @@ function RouteArchives() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // Fetch stations data from API
     useEffect(() => {
         fetch("http://localhost:3001/get-stations")
             .then((res) => res.json())
@@ -27,7 +26,6 @@ function RouteArchives() {
             });
     }, []);
 
-    // Group stations by masterlocation
     const groupedStations = useMemo(() => {
         if (!stations.length) return {};
         
@@ -55,7 +53,6 @@ function RouteArchives() {
     };
 
     const handleShowOnMap = (station) => {
-        // Navigate to home page with station data as URL params
         const params = new URLSearchParams({
             station: station.name,
             lat: station.positionstart[0],
@@ -109,7 +106,6 @@ function RouteArchives() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100">
             <div className="container mx-auto px-4 py-6 max-w-6xl">
-                {/* Header */}
                 <div className="mb-8 text-center">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl shadow-lg mb-4">
                         <MapPin className="w-8 h-8 text-white" />
@@ -119,7 +115,6 @@ function RouteArchives() {
                         Browse all available routes in Pasig. Find your destination and view it on the interactive map.
                     </p>
                 </div>
-                {/* Search Bar */}
                 <div className="mb-8">
                     <div className="relative max-w-2xl mx-auto">
                         <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
@@ -133,7 +128,6 @@ function RouteArchives() {
                     </div>
                 </div>
 
-                {/* Results Info */}
                 <div className="mb-6 text-center">
                     <p className="text-neutral-600">
                         <span className="font-semibold">{Object.keys(groupedStations).length}</span> location{Object.keys(groupedStations).length !== 1 ? 's' : ''} found
@@ -143,7 +137,6 @@ function RouteArchives() {
                     </p>
                 </div>
 
-                {/* Grouped Stations */}
                 <div className="space-y-4">
                     {Object.keys(groupedStations).length === 0 ? (
                         <div className="text-center py-16">
@@ -156,7 +149,6 @@ function RouteArchives() {
                     ) : (
                         Object.entries(groupedStations).map(([groupName, groupStations]) => (
                             <div key={groupName} className="bg-white rounded-2xl shadow-sm border border-neutral-200 overflow-hidden">
-                                {/* Group Header */}
                                 <button
                                     onClick={() => toggleGroup(groupName)}
                                     className="w-full px-6 py-5 flex items-center justify-between hover:bg-neutral-50 transition-colors"
@@ -185,7 +177,6 @@ function RouteArchives() {
                                     </div>
                                 </button>
 
-                                {/* Group Content */}
                                 {expandedGroups[groupName] && (
                                     <div className="border-t border-neutral-200 bg-neutral-50">
                                         <div className="p-6 space-y-4">
@@ -239,7 +230,6 @@ function RouteArchives() {
                     )}
                 </div>
 
-                {/* Summary Stats */}
                 <div className="mt-12 bg-white rounded-2xl p-6 border border-neutral-200 shadow-sm">
                     <h3 className="font-bold text-neutral-900 mb-4 text-center">Route Summary</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
