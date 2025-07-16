@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, handleMarkerClick } from 'react';
 import polyline from '@mapbox/polyline';
 import L from 'leaflet';
 import API_BASE_URL from '../config/api.js';
@@ -26,30 +26,6 @@ function getIconByType(typeid) {
 }
 
 const initialMapPosition = [14.558841468571385, 121.08326037851103]; 
-
-const startIcon = new L.Icon({
-    iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="green">
-            <circle cx="12" cy="12" r="8"/>
-            <text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="bold">S</text>
-        </svg>
-    `),
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-    popupAnchor: [0, -12],
-});
-
-const endIcon = new L.Icon({
-    iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="red">
-            <circle cx="12" cy="12" r="8"/>
-            <text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="bold">E</text>
-        </svg>
-    `),
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-    popupAnchor: [0, -12],
-});
 
 function RouteViewer({ path, start, end }) {
     const map = useMap();
