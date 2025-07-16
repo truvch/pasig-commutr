@@ -63,15 +63,6 @@ function RouteArchives() {
         navigate(`/?${params.toString()}`);
     };
 
-    const getTransportIcon = (typeid) => {
-        if (typeid === 'jeep') {
-            return <img src={jeepIconImg} alt="Jeepney" className="inline-block w-5 h-5 mr-2" />;
-        } else if (typeid === 'uvexpress') {
-            return <img src={uvIconImg} alt="UV Express" className="inline-block w-5 h-5 mr-2" />;
-        }
-        return <span className="inline-block w-3 h-3 bg-neutral-500 rounded-full mr-2"></span>;
-    };
-
     const getTransportBadge = (typeid) => {
         if (typeid === 'jeep') {
             return (

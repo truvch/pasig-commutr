@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
-import { useState, useEffect, useRef, handleMarkerClick } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import polyline from '@mapbox/polyline';
 import L from 'leaflet';
 import API_BASE_URL from '../config/api.js';
@@ -61,6 +61,34 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
     const [error, setError] = useState(null);
     const markerRefs = useRef({});
 
+    const handleMarkerClick = useCallback((station, index) => {
+        if (!station.encpoly || !station.positionstart || !station.positionend) {
+            console.warn('Incomplete station data:', station);
+            return;
+        }
+        
+        if (!Array.isArray(station.positionstart) || station.positionstart.length !== 2 ||
+            !Array.isArray(station.positionend) || station.positionend.length !== 2) {
+            console.warn('Invalid coordinate data:', station);
+            return;
+        }
+        
+        try {
+            let path = polyline.decode(station.encpoly);
+            path = path.map(([lat, lng]) => [lat, lng]);
+            setSelectedRoute({
+                path,
+                start: station.positionstart,
+                end: station.positionend,
+            });
+            if (onStationSelect) {
+                onStationSelect(station);
+            }
+        } catch (error) {
+            console.error('Error decoding polyline for station:', station.name, error);
+        }
+    }, [onStationSelect]);
+
     useEffect(() => {
         setLoading(true);
         setError(null);
@@ -100,41 +128,13 @@ function MainMap({ onStationSelect, clearRoute, preSelectedStation }) {
                 handleMarkerClick(station, stations.indexOf(station));
             }
         }
-    }, [preSelectedStation, stations]);
+    }, [preSelectedStation, stations, handleMarkerClick]);
 
     useEffect(() => {
         if (typeof clearRoute === 'function') {
             clearRoute(() => setSelectedRoute(null));
         }
     }, [clearRoute]);
-
-    const handleMarkerClick = (station, index) => {
-        if (!station.encpoly || !station.positionstart || !station.positionend) {
-            console.warn('Incomplete station data:', station);
-            return;
-        }
-        
-        if (!Array.isArray(station.positionstart) || station.positionstart.length !== 2 ||
-            !Array.isArray(station.positionend) || station.positionend.length !== 2) {
-            console.warn('Invalid coordinate data:', station);
-            return;
-        }
-        
-        try {
-            let path = polyline.decode(station.encpoly);
-            path = path.map(([lat, lng]) => [lat, lng]);
-            setSelectedRoute({
-                path,
-                start: station.positionstart,
-                end: station.positionend,
-            });
-            if (onStationSelect) {
-                onStationSelect(station);
-            }
-        } catch (error) {
-            console.error('Error decoding polyline for station:', station.name, error);
-        }
-    };
 
     return (
         <div className="relative w-full h-full flex-1 flex">

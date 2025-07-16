@@ -6,7 +6,6 @@ import BottomPopup from "../components/bottomPopup.js";
 
 function Home() {
     const [selectedStation, setSelectedStation] = useState(null);
-    const [selectedRoute, setSelectedRoute] = useState(null);
     const [preSelectedStation, setPreSelectedStation] = useState(null);
     const [stations, setStations] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -40,10 +39,6 @@ function Home() {
             if (station) {
                 setPreSelectedStation(station);
                 setSelectedStation(station);
-                setSelectedRoute({
-                    name: station.routeName || station.name || 'Unknown Route',
-                    stops: station.stops || [station.name]
-                });
             }
         }
 
@@ -51,19 +46,10 @@ function Home() {
 
     const handleStationSelect = (station) => {
         setSelectedStation(station);
-        if (station) {
-            setSelectedRoute({
-                name: station.routeName || station.name || 'Unknown Route',
-                stops: station.stops || [station.name]
-            });
-        } else {
-            setSelectedRoute(null);
-        }
     };
 
     const handleClosePopup = () => {
         setSelectedStation(null);
-        setSelectedRoute(null);
         if (clearRouteRef.current) {
             clearRouteRef.current();
         }
